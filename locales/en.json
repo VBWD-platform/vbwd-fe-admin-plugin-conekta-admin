@@ -1,0 +1,11 @@
+{
+  "conektaAdmin": {
+    "orders": {
+      "title": "Conekta orders",
+      "loading": "Loading…",
+      "empty": "No Conekta orders yet.",
+      "allMethods": "All methods",
+      "refund": "Refund"
+    }
+  }
+}
