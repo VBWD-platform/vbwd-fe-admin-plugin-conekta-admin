@@ -3,15 +3,33 @@
     <header>
       <h2>{{ $t('conektaAdmin.orders.title') }}</h2>
       <select v-model="methodFilter">
-        <option value="">{{ $t('conektaAdmin.orders.allMethods') }}</option>
-        <option value="card">card</option>
-        <option value="oxxo_cash">oxxo_cash</option>
-        <option value="spei">spei</option>
+        <option value="">
+          {{ $t('conektaAdmin.orders.allMethods') }}
+        </option>
+        <option value="card">
+          card
+        </option>
+        <option value="oxxo_cash">
+          oxxo_cash
+        </option>
+        <option value="spei">
+          spei
+        </option>
       </select>
     </header>
-    <div v-if="loading">{{ $t('conektaAdmin.orders.loading') }}</div>
-    <div v-else-if="error" class="error">{{ error }}</div>
-    <table v-else-if="filtered.length > 0" class="txtable">
+    <div v-if="loading">
+      {{ $t('conektaAdmin.orders.loading') }}
+    </div>
+    <div
+      v-else-if="error"
+      class="error"
+    >
+      {{ error }}
+    </div>
+    <table
+      v-else-if="filtered.length > 0"
+      class="txtable"
+    >
       <thead>
         <tr>
           <th>Invoice</th>
@@ -20,11 +38,14 @@
           <th>MSI</th>
           <th>Ref / CLABE</th>
           <th>Status</th>
-          <th></th>
+          <th />
         </tr>
       </thead>
       <tbody>
-        <tr v-for="o in filtered" :key="o.id">
+        <tr
+          v-for="o in filtered"
+          :key="o.id"
+        >
           <td>{{ o.invoice_no }}</td>
           <td>{{ o.method }}</td>
           <td>{{ o.amount }} {{ o.currency }}</td>
@@ -45,7 +66,9 @@
         </tr>
       </tbody>
     </table>
-    <div v-else>{{ $t('conektaAdmin.orders.empty') }}</div>
+    <div v-else>
+      {{ $t('conektaAdmin.orders.empty') }}
+    </div>
   </div>
 </template>
 
