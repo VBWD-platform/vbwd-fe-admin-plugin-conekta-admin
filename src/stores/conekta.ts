@@ -16,6 +16,14 @@ export interface ConektaOrder {
   created_at: string | null;
 }
 
+/** Minimal surface of the host's ``@/api`` ApiClient — promise-returning,
+    already-parsed body. Each plugin types its store against this so the
+    view can pass ``api`` from the host without TS complaints. */
+interface ApiClientLike {
+  get<T = unknown>(url: string, config?: unknown): Promise<T>;
+  post<T = unknown>(url: string, body?: unknown, config?: unknown): Promise<T>;
+}
+
 export const useConektaStore = defineStore('conekta-admin', () => {
   const orders = ref<ConektaOrder[]>([]);
   const loading = ref(false);
@@ -28,12 +36,11 @@ export const useConektaStore = defineStore('conekta-admin', () => {
       : orders.value,
   );
 
-  async function fetchOrders(api: { get: typeof fetch }) {
+  async function fetchOrders(api: ApiClientLike) {
     loading.value = true;
     error.value = null;
     try {
-      const resp = await api.get('/api/v1/plugins/conekta/orders');
-      const body = await resp.json();
+      const body = await api.get<{ orders: ConektaOrder[] }>('/api/v1/plugins/conekta/orders');
       orders.value = body.orders || [];
     } catch (e) {
       error.value = e instanceof Error ? e.message : 'failed';
@@ -45,14 +52,10 @@ export const useConektaStore = defineStore('conekta-admin', () => {
   async function refund(
     invoiceNo: string,
     amount: number | null,
-    api: { post: (url: string, body: unknown) => Promise<Response> },
+    api: ApiClientLike,
   ) {
-    const resp = await api.post(
-      `/api/v1/plugins/conekta/orders/${invoiceNo}/refund`,
-      amount !== null ? { amount } : {},
-    );
-    if (!resp.ok) throw new Error(`refund failed: ${resp.status}`);
-    return resp.json();
+    return api.post(`/api/v1/plugins/conekta/orders/${invoiceNo}/refund`,
+      amount !== null ? { amount } : {},);
   }
 
   return { orders, filtered, methodFilter, loading, error, fetchOrders, refund };

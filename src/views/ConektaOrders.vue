@@ -73,7 +73,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, storeToRefs } from 'vue';
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useConektaStore, type ConektaOrder } from '../stores/conekta';
 import { api } from '@/api';
 
