@@ -2,7 +2,7 @@ import type { IPlugin, IPlatformSDK } from 'vbwd-view-component';
 
 export const conektaAdminPlugin: IPlugin = {
   name: 'conekta-admin',
-  version: '1.0.0',
+  version: '26.6',
   description: 'Conekta admin — orders list (card/OXXO/SPEI) + refund',
 
   install(sdk: IPlatformSDK) {
